@@ -46,7 +46,7 @@ export class CreateCostumers1603734951724 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'neighbor',
+            name: 'neighborhood',
             type: 'varchar',
             isNullable: true,
           },

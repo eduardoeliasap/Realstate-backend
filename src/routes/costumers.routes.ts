@@ -14,11 +14,11 @@ costumersRouter.get('/', async (req, res) => {
 
 costumersRouter.post('/', (req, res) => {
   try {
-    const { name, phone, email, password } = req.body;
+    const { name, phone, email, password, cpfcnpj, address, neighborhood, num, city_id, cep, state_id } = req.body;
 
     const createCostumer = new CreateCostumerServices();
 
-    const costumer = createCostumer.execute({ name, phone, email, password });
+    const costumer = createCostumer.execute({ name, phone, email, password, cpfcnpj, address, neighborhood, num, city_id, cep, state_id });
 
     return res.json(costumer);
   } catch (err) {

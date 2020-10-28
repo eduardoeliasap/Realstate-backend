@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('costumers')
+@Entity('realtors')
 class Costumer {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -37,6 +37,9 @@ class Costumer {
 
   @Column()
   state_id: number;
+
+  @Column()
+  creci: string;
 
   @Column()
   status: boolean;

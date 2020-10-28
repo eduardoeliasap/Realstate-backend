@@ -19,6 +19,11 @@ export class CreatePropertys1603808724153 implements MigrationInterface {
             isNullable: false,
           },
           {
+            name: 'state_id',
+            type: 'integer',
+            isNullable: false,
+          },
+          {
             name: 'desc',
             type: 'varchar',
             isNullable: false,
