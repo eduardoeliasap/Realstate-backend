@@ -1,6 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import Costumer from '../models/Costumer';
 import CostumerRepository from '../repositories/CostumersRepository';
+import { hash } from 'bcryptjs';
 
 interface Request {
   name: string;
@@ -40,11 +41,13 @@ class CreateCostumerServices {
       return null;
     }
 
+    const hashedPassword = await hash(password, 8);
+
     const costumer = costumerRepository.create({
       name,
       phone,
       email,
-      password,
+      password: hashedPassword,
       cpfcnpj,
       address,
       neighborhood,

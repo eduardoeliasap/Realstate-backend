@@ -8,35 +8,37 @@ import Costumer from '../models/Costumer';
 interface Request {
   email: string;
   password: string;
+  type: string;
 }
 
 interface Response {
-  user: Costumer;
+  costumer: Costumer;
   token: string;
 }
 
 class AuthenticateUserServices {
-  public async execute({ email, password }: Request): Promise<Response> {
-    const userRepository = getRepository(Costumer);
+  public async execute({ email, password, type }: Request): Promise<Response> {
+    const costumerRepository = getRepository(Costumer);
 
-    const user = await userRepository.findOne({ where: { email } });
-    if (!user) {
-      throw new Error('Incorrect email invalid');
+    const costumer = await costumerRepository.findOne({ where: { email } });
+    if (!costumer) {
+      throw new Error('Incorrect email/password combination');
     }
 
-    const passwordMatched = await compare(password, user.password);
-    if (!passwordMatched) {
-      throw new Error('Incorrect password invalid');
-    }
+    /*** Pendencia ***/
+    // const passwordMatched = await compare(password, costumer.password);
+    // if (!passwordMatched) {
+    //   throw new Error('Incorrect password invalid');
+    // }
 
     const { secret, expiresIn } = authConfig.jwt;
 
-    const token = sign({}, secret, {
-      subject: user.id,
+    const token = sign({type}, secret, {
+      subject: costumer.id,
       expiresIn,
     });
 
-    return { user, token };
+    return { costumer, token };
   }
 }
 

@@ -1,7 +1,12 @@
 import { Router } from 'express';
 import CreatePropertyServices from '../services/CreatePropertyServices';
 
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+
 const propertyRouter = Router();
+
+// Garante que todas as rotas necessitam do tokem
+propertyRouter.use(ensureAuthenticated);
 
 propertyRouter.get('/', async (req, res) => {
 

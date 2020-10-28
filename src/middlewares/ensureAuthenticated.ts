@@ -6,6 +6,7 @@ interface TokenPayload {
   iat: number;
   exp: number;
   sub: string;
+  type: string;
 }
 
 export default function ensureAuthenticated(
@@ -24,10 +25,11 @@ export default function ensureAuthenticated(
   try {
     const decoded = verify(token, authConfig.jwt.secret);
 
-    const { sub } = decoded as TokenPayload;
+    const { sub, type } = decoded as TokenPayload;
 
     request.user = {
       id: sub,
+      type // If "C" = Costumer. If "R" = Realtor
     };
 
     return next();
