@@ -1,11 +1,15 @@
 import { Router } from 'express';
 import CreatePropertyServices from '../services/CreatePropertyServices';
+import multer from 'multer';
+import uploadConfig from '../config/upload';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
-const propertyRouter = Router();
+import UpdatePropertyPhotosServices from '../services/UpdatePropertyPhotosServices';
 
-// Garante que todas as rotas necessitam do tokem
+const propertyRouter = Router();
+const upload = multer(uploadConfig);
+
 propertyRouter.use(ensureAuthenticated);
 
 propertyRouter.get('/', async (req, res) => {
@@ -26,5 +30,23 @@ propertyRouter.post('/', (req, res) => {
     return res.status(400).json({ error: err.message });
   }
 });
+
+propertyRouter.patch(
+  '/photos/:property_id',
+  ensureAuthenticated,
+  upload.single('file'),
+  async (req, res) => {
+    const { property_id } = req.params;
+
+    const updatePropertyPhotos = new UpdatePropertyPhotosServices();
+
+    const photos = await updatePropertyPhotos.execute({
+      property_id,
+      photoFilename: req.file.filename,
+    });
+
+    return res.json(photos);
+  }
+);
 
 export default propertyRouter;

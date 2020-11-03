@@ -1,7 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToOne } from 'typeorm';
 
 import ContractType from './ContractType';
-import PropertType from './PropertyType';
+import PropertyType from './PropertyType';
 import Realtor from './Realtor';
 import Costumer from './Costumer';
 
@@ -22,6 +22,9 @@ class Property {
   @Column()
   propertytype_id: number;
 
+  // @Column()
+  // photo_id: string;
+
   @ManyToOne(() => Costumer)
   @JoinColumn({ name: 'costumer_id' })
   costumer: Costumer;
@@ -34,9 +37,14 @@ class Property {
   @JoinColumn({ name: 'contracttype_id' })
   contracttype: ContractType;
 
-  @ManyToOne(() => PropertType)
+  @ManyToOne(() => PropertyType)
   @JoinColumn({ name: 'propertytype_id' })
-  propertytype: PropertType;
+  propertytype: PropertyType;
+
+  /** Importar a Model PropertyPhotos */
+  // @OneToOne(() => PropertyPhoto)
+  // @JoinColumn({ name: 'photo_id' })
+  // photo: PropertyPhoto;
 
   @Column()
   desc: string;

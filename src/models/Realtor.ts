@@ -1,9 +1,18 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
+
+import AvatarRealtor from '../models/AvatarRealtor';
 
 @Entity('realtors')
 class Costumer {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Column()
+  avatar_id: number;
+
+  @OneToOne(() => AvatarRealtor)
+  @JoinColumn({ name: 'avatar_id' })
+  avatarName: AvatarRealtor;
 
   @Column()
   name: string;

@@ -4,6 +4,7 @@ import { sign } from 'jsonwebtoken';
 import authConfig from '../config/auth';
 
 import Costumer from '../models/Costumer';
+import Realtor from '../models/Realtor';
 
 interface Request {
   email: string;
@@ -12,33 +13,60 @@ interface Request {
 }
 
 interface Response {
-  costumer: Costumer;
   token: string;
 }
 
 class AuthenticateUserServices {
   public async execute({ email, password, type }: Request): Promise<Response> {
-    const costumerRepository = getRepository(Costumer);
+    /* // Costumers Authentication */
+    if (type === "C") {
+      const costumerRepository = getRepository(Costumer);
 
-    const costumer = await costumerRepository.findOne({ where: { email } });
-    if (!costumer) {
-      throw new Error('Incorrect email/password combination');
+      const costumer = await costumerRepository.findOne({ where: { email } });
+      if (!costumer) {
+        throw new Error('Incorrect email/password combination');
+      }
+
+      /*** Pendencia ***/
+      // const passwordMatched = await compare(password, costumer.password);
+      // if (!passwordMatched) {
+      //   throw new Error('Incorrect password invalid');
+      // }
+
+      const { secret, expiresIn } = authConfig.jwt;
+
+      const token = sign({type}, secret, {
+        subject: costumer.id,
+        expiresIn,
+      });
+
+      return { token };
+    } else {
+
+      /* // Realtor Authentication */
+
+      const realtorRepository = getRepository(Realtor);
+
+      const realtor = await realtorRepository.findOne({ where: { email } });
+      if (!realtor) {
+        throw new Error('Incorrect email/password combination');
+      }
+
+      /*** Pendencia ***/
+      // const passwordMatched = await compare(password, realtor.password);
+      // if (!passwordMatched) {
+      //   throw new Error('Incorrect password invalid');
+      // }
+
+      const { secret, expiresIn } = authConfig.jwt;
+
+      const token = sign({type}, secret, {
+        subject: realtor.id,
+        expiresIn,
+      });
+
+      return { token };
     }
-
-    /*** Pendencia ***/
-    // const passwordMatched = await compare(password, costumer.password);
-    // if (!passwordMatched) {
-    //   throw new Error('Incorrect password invalid');
-    // }
-
-    const { secret, expiresIn } = authConfig.jwt;
-
-    const token = sign({type}, secret, {
-      subject: costumer.id,
-      expiresIn,
-    });
-
-    return { costumer, token };
   }
 }
 
