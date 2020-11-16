@@ -14,6 +14,7 @@ interface Request {
 
 interface Response {
   token: string;
+  user: Realtor | Costumer;
 }
 
 class AuthenticateUserServices {
@@ -28,10 +29,10 @@ class AuthenticateUserServices {
       }
 
       /*** Pendencia ***/
-      // const passwordMatched = await compare(password, costumer.password);
-      // if (!passwordMatched) {
-      //   throw new Error('Incorrect password invalid');
-      // }
+      const passwordMatched = await compare(password, costumer.password);
+      if (!passwordMatched) {
+        throw new Error('Incorrect password invalid');
+      }
 
       const { secret, expiresIn } = authConfig.jwt;
 
@@ -40,7 +41,7 @@ class AuthenticateUserServices {
         expiresIn,
       });
 
-      return { token };
+      return { user: costumer, token };
     } else {
 
       /* // Realtor Authentication */
@@ -52,11 +53,12 @@ class AuthenticateUserServices {
         throw new Error('Incorrect email/password combination');
       }
 
-      /*** Pendencia ***/
-      // const passwordMatched = await compare(password, realtor.password);
-      // if (!passwordMatched) {
-      //   throw new Error('Incorrect password invalid');
-      // }
+      // console.log(realtor);
+
+      const passwordMatched = await compare(password, realtor.password);
+      if (!passwordMatched) {
+        throw new Error('Incorrect password invalid');
+      }
 
       const { secret, expiresIn } = authConfig.jwt;
 
@@ -65,7 +67,7 @@ class AuthenticateUserServices {
         expiresIn,
       });
 
-      return { token };
+      return { user: realtor, token };
     }
   }
 }

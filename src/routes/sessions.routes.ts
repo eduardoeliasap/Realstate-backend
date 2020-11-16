@@ -9,7 +9,7 @@ sessionsRouter.post('/', async (request, response) => {
 
   const authenticateUser = new AuthenticateUserServices();
 
-  const { token } = await authenticateUser.execute({
+  const { user, token } = await authenticateUser.execute({
     email,
     password,
     type,
@@ -17,7 +17,7 @@ sessionsRouter.post('/', async (request, response) => {
 
   // delete costumer.password;
 
-  return response.json({ token });
+  return response.json({ user, token });
 });
 
 export default sessionsRouter;

@@ -22,7 +22,7 @@ export default {
       // if (estension !== 'png')
       //   return;
 
-      const fileName = `${fileHash}.${estension}`;
+      const fileName = `${Date.now()}.${estension}`;
 
       return callback(null, fileName);
     },

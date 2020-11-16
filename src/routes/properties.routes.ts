@@ -38,14 +38,14 @@ propertyRouter.patch(
   async (req, res) => {
     const { property_id } = req.params;
 
-    const updatePropertyPhotos = new UpdatePropertyPhotosServices();
+    // const updatePropertyPhotos = new UpdatePropertyPhotosServices();
 
-    const photos = await updatePropertyPhotos.execute({
-      property_id,
-      photoFilename: req.file.filename,
-    });
+    // const photos = await updatePropertyPhotos.execute({
+    //   property_id,
+    //   photoFilename: req.file.filename,
+    // });
 
-    return res.json(photos);
+    return res.json({ ok: true });
   }
 );
 
