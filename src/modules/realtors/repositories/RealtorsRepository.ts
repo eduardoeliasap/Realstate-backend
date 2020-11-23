@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
-import Realtor from '../models/Realtor';
+import Realtor from '../entities/Realtor';
 
 @EntityRepository(Realtor)
 class RealtorsRepository extends Repository<Realtor> {

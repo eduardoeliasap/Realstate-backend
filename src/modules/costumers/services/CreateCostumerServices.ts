@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-import Costumer from '../models/Costumer';
+import Costumer from '../entities/Costumer';
 import CostumerRepository from '../repositories/CostumersRepository';
 import { hash } from 'bcryptjs';
 

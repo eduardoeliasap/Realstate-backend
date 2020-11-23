@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
 
-import AvatarRealtor from '../models/AvatarRealtor';
+import AvatarRealtor from '../../avatars/entities/AvatarRealtor';
 
 @Entity('realtors')
 class Costumer {

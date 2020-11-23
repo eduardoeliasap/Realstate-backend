@@ -1,10 +1,10 @@
 import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import authConfig from '../config/auth';
+import authConfig from '../../../config/auth';
 
-import Costumer from '../models/Costumer';
-import Realtor from '../models/Realtor';
+import Costumer from '../../costumers/entities/Costumer';
+import Realtor from '../../realtors/entities/Realtor';
 
 interface Request {
   email: string;

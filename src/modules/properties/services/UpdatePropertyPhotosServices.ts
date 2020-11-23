@@ -1,10 +1,10 @@
 import { getRepository } from 'typeorm';
 import path from 'path';
 import fs from 'fs';
-import uploadConfig from '../config/upload';
+import uploadConfig from '../../../config/upload';
 
-import Property from '../models/Property';
-import PropertyPhoto from '../models/PropertyPhoto';
+import Property from '../entities/Property';
+import PropertyPhoto from '../../propertyphotos/entities/PropertyPhoto';
 
 interface Request {
   property_id: string;

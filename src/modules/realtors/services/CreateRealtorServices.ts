@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-import Realtor from '../models/Realtor';
+import Realtor from '../entities/Realtor';
 import RealtorRepository from '../repositories/RealtorsRepository';
 import { hash } from 'bcryptjs';
 

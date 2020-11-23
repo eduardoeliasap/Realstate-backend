@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import Property from '../models/Property';
+import Property from '../entities/Property';
 
 interface Request {
   costumer_id: string;

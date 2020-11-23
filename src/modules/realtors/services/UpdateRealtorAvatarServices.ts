@@ -1,10 +1,10 @@
 import { getRepository } from 'typeorm';
 import path from 'path';
 import fs from 'fs';
-import uploadConfig from '../config/upload';
+import uploadConfig from '../../../config/upload';
 
-import Realtor from '../models/Realtor';
-import AvatarRealtor from '../models/AvatarRealtor';
+import Realtor from '../entities/Realtor';
+import AvatarRealtor from '../../avatars/entities/AvatarRealtor';
 
 interface Request {
   realtor_id: string;
