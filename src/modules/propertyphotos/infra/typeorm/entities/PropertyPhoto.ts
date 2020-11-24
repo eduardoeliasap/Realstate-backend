@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 
-import Property from '../../properties/entities/Property';
+import Property from '../../../../properties/infra/typeorm/entities/Property';
 
 @Entity('propertyphotos')
 class PropertyPhoto {

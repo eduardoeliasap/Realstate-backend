@@ -1,9 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToOne } from 'typeorm';
 
-import ContractType from '../../contracties/entities/ContractType';
-import PropertyType from '../../propertytypes/entities/PropertyType';
-import Realtor from '../../realtors/entities/Realtor';
-import Costumer from '../../costumers/entities/Costumer';
+import ContractType from '@modules/contracties/infra/typeorm/entities/ContractType';
+import PropertyType from '@modules/propertytypes/infra/typeorm/entities/PropertyType';
+import Realtor from '@modules/realtors/infra/typeorm/entities/Realtor';
+import Costumer from '@modules/costumers/infra/typeorm/entities/Costumer';
 
 @Entity('properties')
 class Property {

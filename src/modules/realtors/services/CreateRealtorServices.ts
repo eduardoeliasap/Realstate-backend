@@ -1,6 +1,6 @@
 import { getCustomRepository } from 'typeorm';
-import Realtor from '../entities/Realtor';
-import RealtorRepository from '../repositories/RealtorsRepository';
+import Realtor from '../infra/typeorm/entities/Realtor';
+import IRealtorRepository from '../repositories/IRealtorRepository';
 import { hash } from 'bcryptjs';
 
 interface Request {
@@ -19,6 +19,9 @@ interface Request {
 }
 
 class CreateRealtorServices {
+  constructor(
+    private realtorRepository: IRealtorRepository) {}
+
   public async execute({
     name,
     phone,
@@ -32,20 +35,19 @@ class CreateRealtorServices {
     cep,
     state_id,
     creci,
-  }: Request): Promise<Realtor | null> {
-    const realtorRepository = getCustomRepository(RealtorRepository);
+  }: Request): Promise<Realtor | undefined> {
 
-    const emailExists = await realtorRepository.findByEmail(email);
+    const emailExists = await this.realtorRepository.findByEmail(email);
     if (emailExists) {
       new Promise((_, reject) => reject(new Error('Email already exists!'))).
         catch(error => { console.log('', error.message); });
 
-      return null;
+      return;
     }
 
     const hashedPassword = await hash(password, 8);
 
-    const realtor = realtorRepository.create({
+    const realtor = await this.realtorRepository.create({
       name,
       phone,
       email,
@@ -57,10 +59,10 @@ class CreateRealtorServices {
       city_id,
       cep,
       state_id,
-      creci
+      creci,
+      avatar_id: 1,
+      status: false,
     });
-
-    await realtorRepository.save(realtor);
 
     return realtor;
   }

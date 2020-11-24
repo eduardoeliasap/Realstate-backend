@@ -1,18 +1,18 @@
 import { Router } from 'express';
-import { getCustomRepository } from 'typeorm';
+import { getCustomRepository, getRepository } from 'typeorm';
 import multer from 'multer';
-import CreateRealtorServices from '../services/CreateRealtorServices';
-import UpdateRealtorAvatarServices from '../services/UpdateRealtorAvatarServices';
-import RealtorsRepository from '../repositories/RealtorsRepository';
+import CreateRealtorServices from '@modules/realtors/services/CreateRealtorServices';
+import UpdateRealtorAvatarServices from '@modules/realtors/services/UpdateRealtorAvatarServices';
+import RealtorsRepository from '@modules/realtors/infra/typeorm//repositories/RealtorsRepository';
 
-import ensureAuthenticated from '../middlewares/ensureAuthenticated';
-import uploadConfig from '../config/upload';
+import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
+import uploadConfig from '@config/upload';
 
 const realtorsRouter = Router();
 const upload = multer(uploadConfig);
 
 realtorsRouter.get('/', async (req, res) => {
-  const realtorRepository = getCustomRepository(RealtorsRepository);
+  const realtorRepository = getRepository(RealtorsRepository);
   const realtor = await realtorRepository.find();
 
   return res.json(realtor);
@@ -22,7 +22,8 @@ realtorsRouter.post('/', (req, res) => {
   try {
     const { name, phone, email, password, cpfcnpj, address, neighborhood, num, city_id, cep, state_id, creci } = req.body;
 
-    const createRealtor = new CreateRealtorServices();
+    const realtorRepository = new RealtorsRepository();
+    const createRealtor = new CreateRealtorServices(realtorRepository);
 
     const realtor = createRealtor.execute({ name, phone, email, password, cpfcnpj, address, neighborhood, num, city_id, cep, state_id, creci });
 
@@ -35,7 +36,8 @@ realtorsRouter.post('/', (req, res) => {
 realtorsRouter.patch('/avatar/:realtor_id', ensureAuthenticated, upload.single('avatar'), async (req, res) => {
   const { realtor_id } = req.params;
 
-  const createAvatar = new UpdateRealtorAvatarServices();
+  const realtorRepository = new RealtorsRepository();
+  const createAvatar = new UpdateRealtorAvatarServices(realtorRepository);
 
   const avatar = createAvatar.execute({
     realtor_id,

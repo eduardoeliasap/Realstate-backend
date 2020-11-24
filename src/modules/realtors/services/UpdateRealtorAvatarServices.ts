@@ -1,10 +1,11 @@
 import { getRepository } from 'typeorm';
 import path from 'path';
 import fs from 'fs';
-import uploadConfig from '../../../config/upload';
+import uploadConfig from '@config/upload';
 
-import Realtor from '../entities/Realtor';
-import AvatarRealtor from '../../avatars/entities/AvatarRealtor';
+import IRealtorRepository from '../repositories/IRealtorRepository';
+import Realtor from '../infra/typeorm/entities/Realtor';
+import AvatarRealtor from '../../avatars/infra/typeorm/entities/AvatarRealtor';
 
 interface Request {
   realtor_id: string;
@@ -13,11 +14,14 @@ interface Request {
 }
 
 class UpdateRealtorAvatarServices {
+  constructor(
+    private realtorRepository: IRealtorRepository) {}
+
   public async execute({ realtor_id, avatarFilename, originaFilename }: Request): Promise<Realtor> {
     try {
-      const realtorsRepository = getRepository(Realtor);
+      // const realtorsRepository = getRepository(Realtor);
 
-      const realtor = await realtorsRepository.findOne(realtor_id);
+      const realtor = await this.realtorRepository.findById(realtor_id);
       if (!realtor)
         throw new Error('Only authenticated realtors can change avatar');
 
@@ -37,7 +41,7 @@ class UpdateRealtorAvatarServices {
 
       realtor.avatar_id = avatarExists[0].id;
 
-      await realtorsRepository.save(realtor);
+      await this.realtorRepository.save(realtor);
 
       return realtor;
     } catch (err) { console.log(err);

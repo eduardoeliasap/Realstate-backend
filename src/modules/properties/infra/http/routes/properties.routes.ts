@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import CreatePropertyServices from '../services/CreatePropertyServices';
+import CreatePropertyServices from '@modules/properties/services/CreatePropertyServices';
 import multer from 'multer';
-import uploadConfig from '../config/upload';
+import uploadConfig from '@config/upload';
 
-import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
 
-import UpdatePropertyPhotosServices from '../services/UpdatePropertyPhotosServices';
+// import UpdatePropertyPhotosServices from '@modules/properties/services/UpdatePropertyPhotosServices';
 
 const propertyRouter = Router();
 const upload = multer(uploadConfig);

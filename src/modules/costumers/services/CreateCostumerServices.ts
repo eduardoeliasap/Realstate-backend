@@ -1,6 +1,7 @@
 import { getCustomRepository } from 'typeorm';
-import Costumer from '../entities/Costumer';
-import CostumerRepository from '../repositories/CostumersRepository';
+import Costumer from '../infra/typeorm/entities/Costumer';
+//import CostumerRepository from '../repositories/CostumersRepository';
+import ICostumerRepository from '../repositories/ICostumerRepository';
 import { hash } from 'bcryptjs';
 
 interface Request {
@@ -18,6 +19,9 @@ interface Request {
 }
 
 class CreateCostumerServices {
+  constructor(
+    private costumerRepository: ICostumerRepository) {}
+
   public async execute({
     name,
     phone,
@@ -30,20 +34,20 @@ class CreateCostumerServices {
     city_id,
     cep,
     state_id
-  }: Request): Promise<Costumer | null> {
-    const costumerRepository = getCustomRepository(CostumerRepository);
+  }: Request): Promise<Costumer | undefined> {
+    // const costumerRepository = getCustomRepository(CostumerRepository);
 
-    const emailExists = await costumerRepository.findByEmail(email);
+    const emailExists = await this.costumerRepository.findByEmail(email);
     if (emailExists) {
       new Promise((_, reject) => reject(new Error('Email already exists!'))).
         catch(error => { console.log('', error.message); });
 
-      return null;
+      return;
     }
 
     const hashedPassword = await hash(password, 8);
 
-    const costumer = costumerRepository.create({
+    const costumer = this.costumerRepository.create({
       name,
       phone,
       email,
@@ -57,7 +61,7 @@ class CreateCostumerServices {
       state_id
     });
 
-    await costumerRepository.save(costumer);
+    // await this.costumerRepository.save(costumer);
 
     return costumer;
   }
