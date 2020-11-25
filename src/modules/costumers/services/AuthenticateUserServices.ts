@@ -1,4 +1,3 @@
-import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import authConfig from '@config/auth';
@@ -44,32 +43,6 @@ class AuthenticateUserServices {
       });
 
       return { user, token };
-  //   } else {
-
-  //     /* // Realtor Authentication */
-
-  //     // const realtorRepository = getRepository(Realtor);
-
-  //     const realtor = await this.realtorRepository.findByEmail(email);
-  //     if (!realtor) {
-  //       throw new Error('Incorrect email/password combination');
-  //     }
-
-  //     // console.log(realtor);
-
-  //     const passwordMatched = await compare(password, realtor.password);
-  //     if (!passwordMatched) {
-  //       throw new Error('Incorrect password invalid');
-  //     }
-
-  //     const { secret, expiresIn } = authConfig.jwt;
-
-  //     const token = sign({type}, secret, {
-  //       subject: realtor.id,
-  //       expiresIn,
-  //     });
-
-  //     return { user: realtor, token };
   }
 }
 

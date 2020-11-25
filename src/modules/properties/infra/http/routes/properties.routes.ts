@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import CreatePropertyServices from '@modules/properties/services/CreatePropertyServices';
 import multer from 'multer';
 import uploadConfig from '@config/upload';
 
+import PropertiesController from '../controllers/PropertiesController';
+
 import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
 
-// import UpdatePropertyPhotosServices from '@modules/properties/services/UpdatePropertyPhotosServices';
-
 const propertyRouter = Router();
+const propertiesController = new PropertiesController();
 const upload = multer(uploadConfig);
 
 propertyRouter.use(ensureAuthenticated);
@@ -17,19 +17,7 @@ propertyRouter.get('/', async (req, res) => {
   return res.json({ ok: true });
 });
 
-propertyRouter.post('/', (req, res) => {
-  try {
-    const { costumer_id, realtor_id, contracttype_id, propertytype_id, desc, area, roons, garage, suite, latitude, longitude, price, city_id, state_id, situation, status } = req.body;
-
-    const createProperty = new CreatePropertyServices();
-
-    const property = createProperty.execute({ costumer_id, realtor_id, contracttype_id, propertytype_id, desc, area, roons, garage, suite, latitude, longitude, price, city_id, state_id, situation, status });
-
-    return res.json(property);
-  } catch (err) {
-    return res.status(400).json({ error: err.message });
-  }
-});
+propertyRouter.post('/', propertiesController.create);
 
 propertyRouter.patch(
   '/photos/:property_id',
