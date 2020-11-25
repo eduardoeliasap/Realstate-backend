@@ -5,10 +5,15 @@ import CreateRealtorServices from '@modules/realtors/services/CreateRealtorServi
 import UpdateRealtorAvatarServices from '@modules/realtors/services/UpdateRealtorAvatarServices';
 import RealtorsRepository from '@modules/realtors/infra/typeorm//repositories/RealtorsRepository';
 
+import RealtorsController from '../controllers/RealtorsController';
+import RealtorAvatarController from '../controllers/RealtorAvatarController';
+
 import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
 import uploadConfig from '@config/upload';
 
 const realtorsRouter = Router();
+const realtorsController = new RealtorsController();
+const realtorAvatarController = new RealtorAvatarController();
 const upload = multer(uploadConfig);
 
 realtorsRouter.get('/', async (req, res) => {
@@ -18,34 +23,8 @@ realtorsRouter.get('/', async (req, res) => {
   return res.json(realtor);
 });
 
-realtorsRouter.post('/', (req, res) => {
-  try {
-    const { name, phone, email, password, cpfcnpj, address, neighborhood, num, city_id, cep, state_id, creci } = req.body;
+realtorsRouter.post('/', realtorsController.create);
 
-    const realtorRepository = new RealtorsRepository();
-    const createRealtor = new CreateRealtorServices(realtorRepository);
-
-    const realtor = createRealtor.execute({ name, phone, email, password, cpfcnpj, address, neighborhood, num, city_id, cep, state_id, creci });
-
-    return res.json(realtor);
-  } catch (err) {
-    return res.status(400).json({ error: err.message });
-  }
-});
-
-realtorsRouter.patch('/avatar/:realtor_id', ensureAuthenticated, upload.single('avatar'), async (req, res) => {
-  const { realtor_id } = req.params;
-
-  const realtorRepository = new RealtorsRepository();
-  const createAvatar = new UpdateRealtorAvatarServices(realtorRepository);
-
-  const avatar = createAvatar.execute({
-    realtor_id,
-    avatarFilename: req.file.filename,
-    originaFilename: req.file.originalname,
-  });
-
-  return res.json({avatar});
-});
+realtorsRouter.patch('/avatar/:realtor_id', ensureAuthenticated, upload.single('avatar'), realtorAvatarController.update);
 
 export default realtorsRouter;
