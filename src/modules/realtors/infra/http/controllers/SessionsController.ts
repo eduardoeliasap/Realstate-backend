@@ -1,5 +1,4 @@
 import { Request, Response} from 'express';
-import { container } from 'tsyringe';
 import AuthenticateUserServices from '@modules/realtors/services/AuthenticateUserServices';
 import CostumersRepository from '../../typeorm/repositories/RealtorsRepository';
 
@@ -9,6 +8,7 @@ export default class SessionsController {
 
     const costumersRepository = new CostumersRepository();
     const authenticateUser = new AuthenticateUserServices(costumersRepository);
+    // const costumersRepository = container.resolve(AuthenticateUserServices);
 
     const { user, token } = await authenticateUser.execute({
       email,

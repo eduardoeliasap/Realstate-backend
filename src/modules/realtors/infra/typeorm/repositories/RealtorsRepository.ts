@@ -1,7 +1,7 @@
 import { Repository, getRepository } from 'typeorm';
 
 import IRealtorRepository from '@modules/realtors/repositories/IRealtorRepository';
-import ICreateRealtorDTO from '../../../dtos/ICreateRealtorDTO';
+import ICreateRealtorDTO from '@modules/realtors/dtos/ICreateRealtorDTO';
 
 import Realtor from '../entities/Realtor';
 
@@ -12,9 +12,11 @@ class RealtorsRepository implements IRealtorRepository {
   // }
   // id: string | undefined;
 
+  // At here, my repository do not created
   private ormRepository: Repository<Realtor>;
 
   constructor() {
+    // Here I created my repository
     this.ormRepository = getRepository(Realtor);
   }
 

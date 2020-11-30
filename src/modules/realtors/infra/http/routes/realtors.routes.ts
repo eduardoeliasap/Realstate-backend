@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { getCustomRepository, getRepository } from 'typeorm';
 import multer from 'multer';
-import CreateRealtorServices from '@modules/realtors/services/CreateRealtorServices';
-import UpdateRealtorAvatarServices from '@modules/realtors/services/UpdateRealtorAvatarServices';
+// import CreateRealtorServices from '@modules/realtors/services/CreateRealtorServices';
+// import UpdateRealtorAvatarServices from '@modules/realtors/services/UpdateRealtorAvatarServices';
 import RealtorsRepository from '@modules/realtors/infra/typeorm//repositories/RealtorsRepository';
 
 import RealtorsController from '../controllers/RealtorsController';

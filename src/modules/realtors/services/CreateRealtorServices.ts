@@ -1,4 +1,5 @@
 import { getCustomRepository } from 'typeorm';
+import { container, inject, injectable } from 'tsyringe';
 import Realtor from '../infra/typeorm/entities/Realtor';
 import IRealtorRepository from '../repositories/IRealtorRepository';
 import { hash } from 'bcryptjs';
@@ -18,8 +19,10 @@ interface Request {
   creci: string;
 }
 
+@injectable()
 class CreateRealtorServices {
   constructor(
+    @inject('RealtorsRepository')
     private realtorRepository: IRealtorRepository) {}
 
   public async execute({

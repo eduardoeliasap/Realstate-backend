@@ -1,3 +1,4 @@
+// Interface
 import Realtor from '../infra/typeorm/entities/Realtor';
 
 import ICreateRealtorDTO from '../dtos/ICreateRealtorDTO';

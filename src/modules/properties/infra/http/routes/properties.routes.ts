@@ -12,11 +12,6 @@ const upload = multer(uploadConfig);
 
 propertyRouter.use(ensureAuthenticated);
 
-propertyRouter.get('/', async (req, res) => {
-
-  return res.json({ ok: true });
-});
-
 propertyRouter.post('/', propertiesController.create);
 
 propertyRouter.patch(

@@ -21,9 +21,6 @@ class AuthenticateUserServices {
     private costumerRepository: ICostumersRepository) {}
 
   public async execute({ email, password, type }: Request): Promise<Response> {
-    /* // Costumers Authentication */
-      // const costumerRepository = getRepository(Costumer);
-
       const user = await this.costumerRepository.findByEmail(email);
       if (!user) {
         throw new Error('Incorrect email/password combination');

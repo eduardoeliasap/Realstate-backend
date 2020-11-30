@@ -1,4 +1,5 @@
 import { getCustomRepository } from 'typeorm';
+import { container, inject, injectable } from 'tsyringe';
 import Costumer from '../infra/typeorm/entities/Costumer';
 //import CostumerRepository from '../repositories/CostumersRepository';
 import ICostumerRepository from '../repositories/ICostumerRepository';
@@ -18,8 +19,10 @@ interface Request {
   state_id: number;
 }
 
+@injectable()
 class CreateCostumerServices {
   constructor(
+    @inject('CostumersRepository')
     private costumerRepository: ICostumerRepository) {}
 
   public async execute({

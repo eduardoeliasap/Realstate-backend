@@ -1,4 +1,5 @@
 import { getRepository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import authConfig from '@config/auth';
@@ -17,8 +18,10 @@ interface Response {
   token: string;
 }
 
+@injectable()
 class AuthenticateUserServices {
   constructor(
+    @inject('RealtorsRepository')
     private realtorRepository: IRealtorsRepository) {}
 
   public async execute({ email, password, type }: Request): Promise<Response> {

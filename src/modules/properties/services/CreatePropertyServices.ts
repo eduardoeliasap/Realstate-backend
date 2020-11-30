@@ -1,4 +1,6 @@
 import { getRepository } from 'typeorm';
+import { injectable, inject } from 'tsyringe';
+import IPropertiesRepository from '../repositories/IPropertiesRepository';
 import Property from '../infra/typeorm/entities/Property';
 
 interface Request {
@@ -20,28 +22,33 @@ interface Request {
   status: boolean;
 }
 
+@injectable()
 class CreatePropertyServices {
+  constructor(
+    @inject('PropertiesRepository')
+    private propertyRepository: IPropertiesRepository) {}
+
   public async execute({
     costumer_id,
-    realtor_id,
-    contracttype_id,
-    propertytype_id,
-    desc,
-    area,
-    roons,
-    garage,
-    suite,
-    latitude,
-    longitude,
-    price,
-    city_id,
-    state_id,
-    situation,
-    status
-  }: Request): Promise<Property | null> {
-    const propertyRepository = getRepository(Property);
+      realtor_id,
+      contracttype_id,
+      propertytype_id,
+      desc,
+      area,
+      roons,
+      garage,
+      suite,
+      latitude,
+      longitude,
+      price,
+      city_id,
+      state_id,
+      situation,
+      status
+  }: Request): Promise<Property | undefined> {
+    // const propertyRepository = getRepository(Property);
 
-    const property = propertyRepository.create({
+    const property = this.propertyRepository.create({
       costumer_id,
       realtor_id,
       contracttype_id,
@@ -60,7 +67,7 @@ class CreatePropertyServices {
       status
     });
 
-    await propertyRepository.save(property);
+    // await this.propertyRepository.save(property);
 
     return property;
   }

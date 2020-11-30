@@ -1,3 +1,4 @@
+// Interface
 import Costumer from '../infra/typeorm/entities/Costumer';
 
 import ICreateCostumerDTO from '../dtos/ICreateCostumerDTO';

@@ -1,4 +1,5 @@
 import { Request, Response} from 'express';
+import { container } from 'tsyringe';
 import CreateCostumerServices from '@modules/costumers/services/CreateCostumerServices';
 import CostumersRepository from '../../typeorm/repositories/CostumersRepository';
 
@@ -7,8 +8,9 @@ export default class CostumersController {
     try {
       const { name, phone, email, password, cpfcnpj, address, neighborhood, num, city_id, cep, state_id } = req.body;
 
-      const costumersRepository = new CostumersRepository();
-      const createCostumer = new CreateCostumerServices(costumersRepository);
+      // const costumersRepository = new CostumersRepository();
+      // const createCostumer = new CreateCostumerServices(costumersRepository);
+      const createCostumer = container.resolve(CreateCostumerServices);
 
       const costumer = createCostumer.execute({ name, phone, email, password, cpfcnpj, address, neighborhood, num, city_id, cep, state_id });
 
