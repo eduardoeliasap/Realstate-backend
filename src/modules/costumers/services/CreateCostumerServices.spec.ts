@@ -2,7 +2,7 @@
 //   expect(1 + 2).toBe(3);
 // });
 
-import FakeCostumersRepository from '../repositories/fakes/FaceCostumersRepository';
+import FakeCostumersRepository from '../repositories/fakes/FakeCostumersRepository';
 import CreateCostumerServices from './CreateCostumerServices';
 
 describe('CreateCostumer', () => {

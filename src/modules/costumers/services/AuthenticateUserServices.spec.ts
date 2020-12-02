@@ -1,4 +1,4 @@
-import FakeUserRepository from '../repositories/fakes/FaceCostumersRepository';
+import FakeUserRepository from '../repositories/fakes/FakeCostumersRepository';
 import AutehnticateUserService from './AuthenticateUserServices';
 import CreateCostumerServices from './CreateCostumerServices';
 
@@ -29,6 +29,32 @@ describe('AuthenticateUserService', () => {
     });
 
     expect(response).toHaveProperty('token');
+  });
+
+  it('Should be able to authenticate.', async () => {
+    const fakeCostumersRepository = new FakeUserRepository();
+    const authenticateCostumer = new AutehnticateUserService(fakeCostumersRepository);
+    const createCostumer = new CreateCostumerServices(fakeCostumersRepository);
+
+    await createCostumer.execute({
+      email: 'johndoe2@example.com',
+      password: '123456',
+      name: 'name',
+      neighborhood: 'neighborhood',
+      num: 'num',
+      phone: 'phone',
+      state_id: 0,
+      cpfcnpj: 'cpfcnpj',
+      address: 'address',
+      city_id: 0,
+      cep: 'cep',
+    });
+
+    expect(authenticateCostumer.execute({
+      email: 'johndoe@example.com',
+      password: '123456',
+      type: 'C',
+    })).rejects.toBeInstanceOf(Error);
   });
 
   // it('Should not be able to authenticate with invalid password.', async () => {

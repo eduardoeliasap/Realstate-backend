@@ -1,5 +1,6 @@
 import { getCustomRepository } from 'typeorm';
-import { container, inject, injectable } from 'tsyringe';
+import "reflect-metadata";
+import { inject, injectable } from 'tsyringe';
 import Realtor from '../infra/typeorm/entities/Realtor';
 import IRealtorRepository from '../repositories/IRealtorRepository';
 import { hash } from 'bcryptjs';
@@ -42,10 +43,11 @@ class CreateRealtorServices {
 
     const emailExists = await this.realtorRepository.findByEmail(email);
     if (emailExists) {
-      new Promise((_, reject) => reject(new Error('Email already exists!'))).
-        catch(error => { console.log('', error.message); });
+      throw new Error('Email already exists!');
+      // new Promise((_, reject) => reject(new Error('Email already exists!'))).
+      //   catch(error => { console.log('', error.message); });
 
-      return;
+      // return;
     }
 
     const hashedPassword = await hash(password, 8);

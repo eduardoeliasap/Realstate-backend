@@ -24,13 +24,13 @@ class AuthenticateUserServices {
     @inject('RealtorsRepository')
     private realtorRepository: IRealtorsRepository) {}
 
-  public async execute({ email, password, type }: Request): Promise<Response> {
+  public async execute({ email, password, type }: Request): Promise<Response | undefined> {
     /* // Costumers Authentication */
       // const costumerRepository = getRepository(Costumer);
 
       const user = await this.realtorRepository.findByEmail(email);
       if (!user) {
-        throw new Error('Incorrect email/password combination');
+        throw new Error('Incorrect email');
       }
 
       /*** Pendencia ***/
