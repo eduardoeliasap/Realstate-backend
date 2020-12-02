@@ -19,7 +19,7 @@ class CostumersRepository implements ICostumerRepository {
   // id: string | undefined;
   public async findByEmail(email: string): Promise<Costumer | undefined> {
     const costumer = await this.ormRepository.findOne({
-      where: { email },
+      where: { email, type: 'C' }
     });
 
     return costumer;

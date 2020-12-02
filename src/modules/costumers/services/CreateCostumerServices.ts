@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-import { container, inject, injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import Costumer from '../infra/typeorm/entities/Costumer';
 //import CostumerRepository from '../repositories/CostumersRepository';
 import ICostumerRepository from '../repositories/ICostumerRepository';
@@ -42,10 +42,11 @@ class CreateCostumerServices {
 
     const emailExists = await this.costumerRepository.findByEmail(email);
     if (emailExists) {
-      new Promise((_, reject) => reject(new Error('Email already exists!'))).
-        catch(error => { console.log('', error.message); });
+      throw new Error('Email already exists!');
+      // new Promise((_, reject) => reject(new Error('Email already exists!'))).
+      //   catch(error => { console.log('', error.message); });
 
-      return;
+      // return;
     }
 
     const hashedPassword = await hash(password, 8);

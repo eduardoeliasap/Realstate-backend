@@ -1,6 +1,5 @@
 import { getRepository } from 'typeorm';
 import path from 'path';
-import fs from 'fs';
 import uploadConfig from '@config/upload';
 
 import Property from '@modules/properties/infra/typeorm/entities/Property';
