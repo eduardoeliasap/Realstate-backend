@@ -1,5 +1,7 @@
 import { container } from 'tsyringe';
 
+import '@modules/realtors/providers';
+
 import ICostumersRepository from '@modules/costumers/repositories/ICostumerRepository';
 import CostumersRepository from '@modules/costumers/infra/typeorm/repositories/CostumersRepository';
 

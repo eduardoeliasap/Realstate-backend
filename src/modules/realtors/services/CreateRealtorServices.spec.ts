@@ -1,12 +1,16 @@
-import CreateRealtorServices from './CreateRealtorServices';
 import FakeRealtorRepository from '../repositories/fakes/FakeRealtorRepository';
+import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
+
+import CreateRealtorServices from './CreateRealtorServices';
 
 describe('Create Realtors', () => {
   it('Should be able to create a new Realtor', async () => {
-    const fakeRealtorRepository = new FakeRealtorRepository();
-    const createRealtorServices = new CreateRealtorServices(fakeRealtorRepository);
+    const fakeRealtorsRepository = new FakeRealtorRepository();
+    const fakeHashProvider = new FakeHashProvider();
 
-    const realtor = await createRealtorServices.execute({
+    const createRealtor = new CreateRealtorServices(fakeRealtorsRepository, fakeHashProvider);
+
+    const realtor = await createRealtor.execute({
       address: 'address',
       cep: 'cep',
       city_id: 1,
@@ -25,11 +29,13 @@ describe('Create Realtors', () => {
   });
 
   it('Should not be able to create a new Realtor with email already exists', async () => {
-    const fakeRealtorRepository = new FakeRealtorRepository();
-    const createRealtorServices = new CreateRealtorServices(fakeRealtorRepository);
+    const fakeRealtorsRepository = new FakeRealtorRepository();
+    const fakeHashProvider = new FakeHashProvider();
+
+    const createRealtor = new CreateRealtorServices(fakeRealtorsRepository, fakeHashProvider);
 
     try {
-      await createRealtorServices.execute({
+      await createRealtor.execute({
         address: 'address',
         cep: 'cep',
         city_id: 1,
@@ -45,7 +51,7 @@ describe('Create Realtors', () => {
       });
 
       expect(
-        createRealtorServices.execute({
+        createRealtor.execute({
           address: 'address',
           cep: 'cep',
           city_id: 1,

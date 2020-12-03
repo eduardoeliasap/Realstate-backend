@@ -1,12 +1,16 @@
 import FakeRealtorRepository from '../repositories/fakes/FakeRealtorRepository';
+import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
+
 import AuthenticateRealtorService from './AuthenticateUserServices';
 import CreateRealtorServices from './CreateRealtorServices';
 
 describe('AuthenticateUserService', () => {
   it('Should be able to authenticate.', async () => {
     const fakeRealtorsRepository = new FakeRealtorRepository();
-    const authenticateRealtor = new AuthenticateRealtorService(fakeRealtorsRepository);
-    const createRealtor = new CreateRealtorServices(fakeRealtorsRepository);
+    const fakeHashProvider = new FakeHashProvider();
+
+    const authenticateRealtor = new AuthenticateRealtorService(fakeRealtorsRepository, fakeHashProvider);
+    const createRealtor = new CreateRealtorServices(fakeRealtorsRepository, fakeHashProvider);
 
     await createRealtor.execute({
       email: 'johndoe2@example.com',
@@ -34,8 +38,10 @@ describe('AuthenticateUserService', () => {
 
   it('Should be able to authenticate.', async () => {
     const fakeRealtorsRepository = new FakeRealtorRepository();
-    const authenticateRealtor = new AuthenticateRealtorService(fakeRealtorsRepository);
-    const createRealtor = new CreateRealtorServices(fakeRealtorsRepository);
+    const fakeHashProvider = new FakeHashProvider();
+
+    const authenticateRealtor = new AuthenticateRealtorService(fakeRealtorsRepository, fakeHashProvider);
+    const createRealtor = new CreateRealtorServices(fakeRealtorsRepository, fakeHashProvider);
 
     await createRealtor.execute({
       email: 'johndoe2@example.com',
@@ -61,8 +67,10 @@ describe('AuthenticateUserService', () => {
 
   it('Should not be able to authenticate with invalid password.', async () => {
     const fakeRealtorsRepository = new FakeRealtorRepository();
-    const authenticateRealtor = new AuthenticateRealtorService (fakeRealtorsRepository);
-    const createRealtor = new CreateRealtorServices(fakeRealtorsRepository);
+    const fakeHashProvider = new FakeHashProvider();
+
+    const authenticateRealtor = new AuthenticateRealtorService(fakeRealtorsRepository, fakeHashProvider);
+    const createRealtor = new CreateRealtorServices(fakeRealtorsRepository, fakeHashProvider);
 
     await createRealtor.execute({
       email: 'johndoe2@example.com',

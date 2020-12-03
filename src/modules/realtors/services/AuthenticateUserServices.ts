@@ -1,9 +1,11 @@
 import { getRepository } from 'typeorm';
 import { inject, injectable } from 'tsyringe';
-import { compare } from 'bcryptjs';
+import { compare, hash } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import authConfig from '@config/auth';
+
 import IRealtorsRepository from '../../realtors/repositories/IRealtorRepository';
+import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
 import Realtor from '../../realtors/infra/typeorm/entities/Realtor';
 
@@ -22,7 +24,11 @@ interface Response {
 class AuthenticateUserServices {
   constructor(
     @inject('RealtorsRepository')
-    private realtorRepository: IRealtorsRepository) {}
+    private realtorRepository: IRealtorsRepository,
+
+    @inject('HashProvider')
+    private hashProvider: IHashProvider
+  ) {}
 
   public async execute({ email, password, type }: Request): Promise<Response | undefined> {
     /* // Costumers Authentication */
@@ -34,7 +40,11 @@ class AuthenticateUserServices {
       }
 
       /*** Pendencia ***/
-      const passwordMatched = await compare(password, user.password);
+      // const hashedPassword = await hash(password, 8);
+      const passwordMatched = await this.hashProvider.compareHash(password, user.password);
+      // console.log(hashedPassword);
+      // console.log(user.password);
+
       if (!passwordMatched) {
         throw new Error('Password invalid');
       }

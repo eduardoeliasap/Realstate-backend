@@ -2,8 +2,10 @@ import { getCustomRepository } from 'typeorm';
 import "reflect-metadata";
 import { inject, injectable } from 'tsyringe';
 import Realtor from '../infra/typeorm/entities/Realtor';
-import IRealtorRepository from '../repositories/IRealtorRepository';
 import { hash } from 'bcryptjs';
+
+import IRealtorRepository from '../repositories/IRealtorRepository';
+import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
 interface Request {
   name: string;
@@ -24,7 +26,11 @@ interface Request {
 class CreateRealtorServices {
   constructor(
     @inject('RealtorsRepository')
-    private realtorRepository: IRealtorRepository) {}
+    private realtorRepository: IRealtorRepository,
+
+    @inject('HashProvider')
+    private hashProvider: IHashProvider
+  ) {}
 
   public async execute({
     name,
@@ -50,7 +56,7 @@ class CreateRealtorServices {
       // return;
     }
 
-    const hashedPassword = await hash(password, 8);
+    const hashedPassword = await this.hashProvider.generateHash(password);
 
     const realtor = await this.realtorRepository.create({
       name,
