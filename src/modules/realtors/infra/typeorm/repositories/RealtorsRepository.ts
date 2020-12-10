@@ -7,11 +7,6 @@ import Realtor from '../entities/Realtor';
 
 // @EntityRepository(Realtor)
 class RealtorsRepository implements IRealtorRepository {
-  // password(password: string, password: any) {
-  //   throw new Error("Method not implemented.");
-  // }
-  // id: string | undefined;
-
   // At here, my repository do not created
   private ormRepository: Repository<Realtor>;
 
@@ -34,12 +29,22 @@ class RealtorsRepository implements IRealtorRepository {
     return realtor;
   }
 
-  public async create({ name, phone, email, password, cpfcnpj, address, neighborhood, num, city_id,cep, state_id,creci, status }: ICreateRealtorDTO): Promise<Realtor> {
-    const user = this.ormRepository.create({ name, phone, email, password, cpfcnpj, address, neighborhood, num, city_id,cep, state_id,creci, status });
+  public async findAll(): Promise<Realtor[] | undefined> {
 
-    await this.ormRepository.save(user);
+    const realtor = await this.ormRepository.find();
 
-    return user;
+    return realtor;
+  }
+
+  public async create({ name, phone, email, password, cpfcnpj, address, neighborhood, num, city_id,cep, state_id,creci, status }: ICreateRealtorDTO): Promise<Realtor | undefined> {
+    const realtor = this.ormRepository.create({ name, phone, email, password, cpfcnpj, address, neighborhood, num, city_id,cep, state_id,creci, status });
+
+    if (!realtor)
+      return;
+
+    await this.ormRepository.save(realtor);
+
+    return realtor;
   }
 
   public async save(realtor: Realtor): Promise<Realtor> {

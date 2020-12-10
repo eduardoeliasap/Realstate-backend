@@ -1,7 +1,5 @@
 import { getRepository } from 'typeorm';
-import path from 'path';
-import fs from 'fs';
-import uploadConfig from '@config/upload';
+import { inject, injectable} from 'tsyringe';
 
 import IRealtorRepository from '../repositories/IRealtorRepository';
 import Realtor from '../infra/typeorm/entities/Realtor';
@@ -13,8 +11,10 @@ interface Request {
   originaFilename: string;
 }
 
+@injectable()
 class UpdateRealtorAvatarServices {
   constructor(
+
     private realtorRepository: IRealtorRepository) {}
 
   public async execute({ realtor_id, avatarFilename, originaFilename }: Request): Promise<Realtor> {

@@ -5,7 +5,6 @@ import ICostumerRepository from '@modules/costumers/repositories/ICostumerReposi
 import Costumer from '../entities/Costumer';
 import ICreateCostumerDTO from '../../../dtos/ICreateCostumerDTO';
 
-// @EntityRepository(Costumer)
 class CostumersRepository implements ICostumerRepository {
   private ormRepository: Repository<Costumer>;
 
@@ -13,16 +12,21 @@ class CostumersRepository implements ICostumerRepository {
     this.ormRepository = getRepository(Costumer);
   }
 
-  // password(password: string, password: any) {
-  //   throw new Error("Method not implemented.");
-  // }
-  // id: string | undefined;
   public async findByEmail(email: string): Promise<Costumer | undefined> {
     const costumer = await this.ormRepository.findOne({
-      where: { email, type: 'C' }
+      where: { email }
     });
 
     return costumer;
+  }
+
+  public async compareEmail(password: string, user_password: string): Promise<boolean> {
+    var bcrypt = require('bcryptjs');
+    const passwordMatched = await bcrypt.compare(password, user_password);
+    if (!passwordMatched)
+      return false;
+
+    return true;
   }
 
   public async findByDate(date: Date): Promise<Costumer | undefined> {

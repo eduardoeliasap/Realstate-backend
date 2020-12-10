@@ -2,12 +2,18 @@ import FakeUserRepository from '../repositories/fakes/FakeCostumersRepository';
 import AutehnticateUserService from './AuthenticateUserServices';
 import CreateCostumerServices from './CreateCostumerServices';
 
-describe('AuthenticateUserService', () => {
-  it('Should be able to authenticate.', async () => {
-    const fakeCostumersRepository = new FakeUserRepository();
-    const authenticateCostumer = new AutehnticateUserService(fakeCostumersRepository);
-    const createCostumer = new CreateCostumerServices(fakeCostumersRepository);
+let fakeCostumersRepository: FakeUserRepository;
+let authenticateCostumer: AutehnticateUserService;
+let createCostumer: CreateCostumerServices;
 
+describe('AuthenticateUserService', () => {
+  beforeEach(() => {
+    fakeCostumersRepository = new FakeUserRepository();
+    authenticateCostumer = new AutehnticateUserService(fakeCostumersRepository);
+    createCostumer = new CreateCostumerServices(fakeCostumersRepository);
+  })
+
+  it('Should be able to authenticate.', async () => {
     await createCostumer.execute({
       email: 'johndoe2@example.com',
       password: '123456',
@@ -32,10 +38,6 @@ describe('AuthenticateUserService', () => {
   });
 
   it('Should be able to authenticate.', async () => {
-    const fakeCostumersRepository = new FakeUserRepository();
-    const authenticateCostumer = new AutehnticateUserService(fakeCostumersRepository);
-    const createCostumer = new CreateCostumerServices(fakeCostumersRepository);
-
     await createCostumer.execute({
       email: 'johndoe2@example.com',
       password: '123456',

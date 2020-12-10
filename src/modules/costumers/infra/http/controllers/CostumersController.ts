@@ -1,7 +1,6 @@
 import { Request, Response} from 'express';
 import { container } from 'tsyringe';
 import CreateCostumerServices from '@modules/costumers/services/CreateCostumerServices';
-import CostumersRepository from '../../typeorm/repositories/CostumersRepository';
 
 export default class CostumersController {
   public async create(req: Request, res: Response): Promise<Response> {

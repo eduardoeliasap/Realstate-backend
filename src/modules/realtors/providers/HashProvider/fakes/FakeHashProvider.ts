@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import IHashProvider from '../models/IHashProvider';
 
 export default class BCriptyHashProvider implements IHashProvider {
@@ -6,6 +7,7 @@ export default class BCriptyHashProvider implements IHashProvider {
   }
 
   public async compareHash(payload: string, hashed: string): Promise<boolean> {
+    // return bcrypt.compareSync(payload, hashed);
     return payload === hashed;
   }
 }

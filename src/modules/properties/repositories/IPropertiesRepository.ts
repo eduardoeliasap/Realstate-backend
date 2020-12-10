@@ -1,4 +1,3 @@
-// Interface
 import Property from '../infra/typeorm/entities/Property';
 
 import ICreatePropertyDTO from '../dtos/ICreatePropertyDTO';

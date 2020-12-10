@@ -7,8 +7,8 @@ const tmpFolder = path.resolve(__dirname, '..', '..', 'tmp');
 const fileHash = crypto.randomBytes(10).toString('hex');
 
 export default {
-  directory: tmpFolder,
-  fileNameHashed: fileHash,
+  tmpFolder,
+  uploadsFolder: path.resolve(tmpFolder, 'uploads'),
 
   storage: multer.diskStorage({
     destination: tmpFolder,

@@ -19,7 +19,7 @@ class UpdatePropertyPhotosServices {
     if (!property)
       throw new Error('Only authenticated users can change avatar');
 
-    const propertyPhotoPathFileName = path.join(uploadConfig.directory, photoFilename);
+    const propertyPhotoPathFileName = path.join(uploadConfig.tmpFolder, photoFilename);
 
     const propertyPhotos = propertyPhotosRepository.create({
       name: photoFilename,

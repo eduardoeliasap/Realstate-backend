@@ -2,8 +2,19 @@ import { Request, Response} from 'express';
 import { container } from 'tsyringe';
 import RealtorsRepository from '../../typeorm/repositories/RealtorsRepository';
 import CreateRealtorServices from '@modules/realtors/services/CreateRealtorServices';
+import ListRealtorService from '@modules/realtors/services/ListRealtorService';
+import { getRepository } from 'typeorm';
 
 export default class RealtorsController {
+  public async index (req: Request, res: Response): Promise<Response> {
+    const realtorRepository = new RealtorsRepository();
+    const createRealtor = new ListRealtorService(realtorRepository);
+
+    const realtor = await createRealtor.find();
+
+    return res.json(realtor);
+  }
+
   public async create(req: Request, res: Response): Promise<Response> {
     try {
       const { name, phone, email, password, cpfcnpj, address, neighborhood, num, city_id, cep, state_id, creci } = req.body;

@@ -7,10 +7,6 @@ import Property from '../entities/Property';
 
 // @EntityRepository(Property)
 class PropertiesRepository implements IPropertyRepository {
-  // password(password: string, password: any) {
-  //   throw new Error("Method not implemented.");
-  // }
-  // id: string | undefined;
 
   // At here, my repository do not created
   private ormRepository: Repository<Property>;

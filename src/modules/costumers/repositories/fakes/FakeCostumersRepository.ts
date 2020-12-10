@@ -16,6 +16,15 @@ class CostumersRepository implements ICostumerRepository {
     } catch (err) { return undefined; }
   }
 
+  public async compareEmail(password: string, user_password: string): Promise<boolean> {
+    var bcrypt = require('bcryptjs');
+    const passwordMatched = await bcrypt.compare(password, user_password);
+    if (!passwordMatched)
+      return false;
+
+    return true;
+  }
+
   public async create(costumerData: ICreateCostumerDTO): Promise<Costumer> {
     const costumer = new Costumer();
 

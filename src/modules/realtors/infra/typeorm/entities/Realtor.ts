@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import AvatarRealtor from '@modules/avatars/infra/typeorm/entities/AvatarRealtor';
 
 @Entity('realtors')
-class Costumer {
+class Realtor {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -60,4 +60,4 @@ class Costumer {
   updated_at: Date;
 }
 
-export default Costumer
+export default Realtor

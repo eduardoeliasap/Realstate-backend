@@ -5,11 +5,16 @@
 import FakeCostumersRepository from '../repositories/fakes/FakeCostumersRepository';
 import CreateCostumerServices from './CreateCostumerServices';
 
-describe('CreateCostumer', () => {
-  it('Should be able to create a new costumer.', async () => {
-    const fakeCostumersRepository = new FakeCostumersRepository();
-    const createCostumer = new CreateCostumerServices(fakeCostumersRepository);
+let fakeCostumersRepository: FakeCostumersRepository;
+let createCostumer: CreateCostumerServices;
 
+describe('CreateCostumer', () => {
+  beforeEach(() => {
+    fakeCostumersRepository = new FakeCostumersRepository();
+    createCostumer = new CreateCostumerServices(fakeCostumersRepository);
+  })
+
+  it('Should be able to create a new costumer.', async () => {
     const costumer = await createCostumer.execute({
       email: 'email',
       name: 'name',
@@ -29,9 +34,6 @@ describe('CreateCostumer', () => {
   });
 
   it('Should not be able to create a new costumer with email exists.', async () => {
-    const fakeCostumersRepository = new FakeCostumersRepository();
-    const createCostumer = new CreateCostumerServices(fakeCostumersRepository);
-
     try {
       await createCostumer.execute({
         email: 'johndoe@example.com',
